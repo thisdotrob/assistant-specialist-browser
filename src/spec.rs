@@ -31,7 +31,7 @@ pub const BROWSER_DESCRIPTION: &str =
 
 /// The repository name of the browser specialist's custom image (built from the
 /// co-located `image/Dockerfile`, `FROM claw-agent-base` + Chromium).
-pub const BROWSER_IMAGE_REPOSITORY: &str = "claw-specialist-browser";
+pub const BROWSER_IMAGE_REPOSITORY: &str = "assistant-specialist-browser";
 
 /// Per-turn step ceiling, bounding a stuck or looping browse.
 pub const BROWSER_MAX_TURNS: u32 = 40;

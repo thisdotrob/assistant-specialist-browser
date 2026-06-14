@@ -19,7 +19,7 @@ use claw_agent_graph::{
     ResultArtifact, RetentionLabel, RoutingError, SpecialistJob, SpecialistRegistry,
     SpecialistResult, SpecialistStatus, VecAuditSink, RESULT_KIND,
 };
-use claw_specialist_browser::{
+use assistant_specialist_browser::{
     approve_artifact, ArtifactKind, BrowserSpecialistProfile, NetworkPolicy, BROWSER_PROFILE_ID,
 };
 

@@ -1,4 +1,4 @@
-# claw-specialist-browser: the browser specialist's custom image. It is the slim
+# assistant-specialist-browser: the browser specialist's custom image. It is the slim
 # `claw-agent-base` plus only the binaries this specialist needs — a headless
 # Chromium and the `agent-browser` CLI that drives it. Node, the Claude Code CLI,
 # the shim source, and the entrypoint are all inherited from the base, so this

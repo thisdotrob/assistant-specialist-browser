@@ -34,5 +34,5 @@ pub use spec::{
     BROWSER_IMAGE_REPOSITORY, BROWSER_MAX_TURNS, BROWSER_ROUTE_NAME,
 };
 
-pub const MODULE_ID: &str = "claw-specialist-browser";
+pub const MODULE_ID: &str = "assistant-specialist-browser";
 pub const MODULE_VERSION: &str = env!("CARGO_PKG_VERSION");
