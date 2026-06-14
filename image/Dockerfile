@@ -41,4 +41,4 @@ RUN npm install -g "${AGENT_BROWSER_PACKAGE}"
 ENV AGENT_BROWSER_EXECUTABLE_PATH=/usr/bin/chromium
 ENV PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium
 
-# CLAW_SESSION_DIR and the ENTRYPOINT are inherited from assistant-base.
+# ASSISTANT_SESSION_DIR and the ENTRYPOINT are inherited from assistant-base.

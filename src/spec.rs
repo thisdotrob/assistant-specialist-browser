@@ -8,7 +8,7 @@
 //!
 //! The persona prompt lives here (not in the shim) so the shim stays a generic,
 //! specialist-agnostic harness: the host hands this prompt to the container as
-//! `CLAW_SPECIALIST_SYSTEM_PROMPT` and the harness uses it verbatim.
+//! `ASSISTANT_SPECIALIST_SYSTEM_PROMPT` and the harness uses it verbatim.
 
 use assistant_specialist_spec::SpecialistSpec;
 

@@ -95,7 +95,7 @@ pub fn artifact_storage_writable(roots: &[&Path]) -> CheckStatus {
                 detail: format!("artifact root {} does not exist", root.display()),
             };
         }
-        let probe = root.join(".claw-browser-write-probe");
+        let probe = root.join(".assistant-browser-write-probe");
         match std::fs::write(&probe, b"") {
             Ok(()) => {
                 let _ = std::fs::remove_file(&probe);
