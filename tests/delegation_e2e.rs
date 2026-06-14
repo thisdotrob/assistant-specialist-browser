@@ -12,7 +12,7 @@
 
 use std::path::PathBuf;
 
-use claw_agent_graph::{
+use assistant_agent_graph::{
     artifacts_within_policy, authorize_external_destination, collect_result, create_specialist,
     route_handoff, route_result, start_job, store, transition_job, validate_handoff, A2aAcl,
     AuditEvent, CredentialPolicy, HandoffPacket, JobBudget, JobEvent, JobStatus, MemoryFact,
@@ -23,8 +23,8 @@ use assistant_specialist_browser::{
     approve_artifact, ArtifactKind, BrowserSpecialistProfile, NetworkPolicy, BROWSER_PROFILE_ID,
 };
 
-use claw_db::{apply, baseline_migrations, baseline_owner_modules};
-use claw_session::{LocalControl, SessionLayout};
+use assistant_db::{apply, baseline_migrations, baseline_owner_modules};
+use assistant_session::{LocalControl, SessionLayout};
 
 use rusqlite::Connection;
 
@@ -113,7 +113,7 @@ fn orchestrator_delegates_browser_task_and_receives_result() {
         browser_session_allowed: true,
     };
     validate_handoff(&handoff).unwrap();
-    let return_path = claw_agent_graph::ReturnPath {
+    let return_path = assistant_agent_graph::ReturnPath {
         orchestrator_group: "orchestrator".into(),
         session_id: "sess-1".into(),
         inbound_seq: 0,

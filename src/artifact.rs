@@ -4,7 +4,7 @@
 //! captures, and persist cookies/session state. Every such write must land
 //! inside a profile-approved root — never the orchestrator workspace and never
 //! an arbitrary host path. Confinement is lexical (mirroring
-//! `claw-session`'s attachment-path safety): we reject `..`, absolute, and
+//! `assistant-session`'s attachment-path safety): we reject `..`, absolute, and
 //! empty candidates, then confirm the joined path stays under an approved root.
 
 use std::path::{Component, Path, PathBuf};

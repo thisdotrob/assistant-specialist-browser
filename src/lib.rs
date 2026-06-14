@@ -3,7 +3,7 @@
 //! browser-specialist readiness gates.
 //!
 //! This crate owns host-side browser-specialist policy. It does not depend on
-//! `claw-runtime-docker`: the host runs the container and feeds Chromium/CLI
+//! `assistant-runtime-docker`: the host runs the container and feeds Chromium/CLI
 //! launch probes into the readiness gates here. Path confinement, network
 //! policy, and the artifact policy are pure host-side logic with full unit
 //! coverage; the Chromium-launch and image/CLI checks require the browser

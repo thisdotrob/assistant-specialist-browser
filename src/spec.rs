@@ -10,7 +10,7 @@
 //! specialist-agnostic harness: the host hands this prompt to the container as
 //! `CLAW_SPECIALIST_SYSTEM_PROMPT` and the harness uses it verbatim.
 
-use claw_specialist_spec::SpecialistSpec;
+use assistant_specialist_spec::SpecialistSpec;
 
 use crate::network::{NetworkMode, NetworkPolicy};
 use crate::profile::{
@@ -30,7 +30,7 @@ pub const BROWSER_DESCRIPTION: &str =
     "browses the web and reads live pages — for requests that need current web access";
 
 /// The repository name of the browser specialist's custom image (built from the
-/// co-located `image/Dockerfile`, `FROM claw-agent-base` + Chromium).
+/// co-located `image/Dockerfile`, `FROM assistant-base` + Chromium).
 pub const BROWSER_IMAGE_REPOSITORY: &str = "assistant-specialist-browser";
 
 /// Per-turn step ceiling, bounding a stuck or looping browse.

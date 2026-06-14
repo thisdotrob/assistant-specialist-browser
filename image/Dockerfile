@@ -1,11 +1,11 @@
 # assistant-specialist-browser: the browser specialist's custom image. It is the slim
-# `claw-agent-base` plus only the binaries this specialist needs — a headless
+# `assistant-base` plus only the binaries this specialist needs — a headless
 # Chromium and the `agent-browser` CLI that drives it. Node, the Claude Code CLI,
 # the shim source, and the entrypoint are all inherited from the base, so this
 # image adds binaries and nothing else. Built outside the sandbox (apt + npm need
-# network); the base tag must match the `claw-agent-base` build.
+# network); the base tag must match the `assistant-base` build.
 
-ARG BASE_IMAGE=claw-agent-base:0.1.0
+ARG BASE_IMAGE=assistant-base:0.1.0
 FROM ${BASE_IMAGE}
 
 # Pinned so an upstream release can't silently change behaviour under a rebuild.
@@ -41,4 +41,4 @@ RUN npm install -g "${AGENT_BROWSER_PACKAGE}"
 ENV AGENT_BROWSER_EXECUTABLE_PATH=/usr/bin/chromium
 ENV PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium
 
-# CLAW_SESSION_DIR and the ENTRYPOINT are inherited from claw-agent-base.
+# CLAW_SESSION_DIR and the ENTRYPOINT are inherited from assistant-base.

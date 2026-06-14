@@ -8,9 +8,9 @@
 
 use std::path::PathBuf;
 
-use claw_agent_graph::{ProfileLimits, RegisteredProfile};
-use claw_capabilities::{CapabilityDescriptor, ProfileDescriptor};
-use claw_core::ProfileMetadata;
+use assistant_agent_graph::{ProfileLimits, RegisteredProfile};
+use assistant_capabilities::{CapabilityDescriptor, ProfileDescriptor};
+use assistant_core::ProfileMetadata;
 
 use crate::artifact::{ArtifactKind, ArtifactPolicy};
 use crate::network::NetworkPolicy;
@@ -97,7 +97,7 @@ impl BrowserSpecialistProfile {
 
     /// Translate this profile into the plain [`RegisteredProfile`] data the agent
     /// graph admits specialists from. This is the one-way bridge into the graph:
-    /// `claw-agent-graph` never depends on this crate, so the host wires the
+    /// `assistant-agent-graph` never depends on this crate, so the host wires the
     /// browser specialist in through this conversion. The graph then knows the
     /// profile's identity, that it is a specialist with no external
     /// destinations, and its limits.

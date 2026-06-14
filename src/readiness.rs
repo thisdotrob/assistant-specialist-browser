@@ -11,7 +11,7 @@
 //! record them as skipped. The artifact-storage and network-policy checks are
 //! pure host-side logic and run everywhere.
 //!
-//! `CheckStatus` mirrors `claw-runtime-docker`'s readiness status shape. The two
+//! `CheckStatus` mirrors `assistant-runtime-docker`'s readiness status shape. The two
 //! crates duplicate the small enum rather than couple to each other, honoring
 //! the module dependency boundary (browser does not depend on the docker
 //! runtime); the host unifies them when aggregating readiness.
