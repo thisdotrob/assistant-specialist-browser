@@ -37,7 +37,8 @@ pub const BROWSER_IMAGE_REPOSITORY: &str = "ghcr.io/thisdotrob/assistant-special
 /// The digest of the published specialist image, pinning the exact bytes a
 /// delegated job pulls. Bumped on every republish (see the release runbook).
 /// `None` falls back to the `repository:tag` reference.
-pub const BROWSER_IMAGE_DIGEST: Option<&str> = None;
+pub const BROWSER_IMAGE_DIGEST: Option<&str> =
+    Some("sha256:7cb1fd748137f5fce0f353f6f1a215485e0eb364c1ed8e65110256a3e3a680b1");
 
 /// Per-turn step ceiling, bounding a stuck or looping browse.
 pub const BROWSER_MAX_TURNS: u32 = 40;
