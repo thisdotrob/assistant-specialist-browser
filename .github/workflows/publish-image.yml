@@ -1,0 +1,75 @@
+name: Publish specialist image
+
+# Builds the browser specialist image (FROM assistant-base + Chromium) and pushes
+# it to GHCR. Location + visibility mirror this (public) repo:
+# ghcr.io/thisdotrob/assistant-specialist-browser. Delegated jobs pull it
+# digest-pinned; nobody needs this repo checked out to run it.
+#
+# The base must be published first: pass its digest-pinned ref via the
+# `base_image` input so this image layers on exact base bytes.
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      base_image:
+        description: "Base image ref to build FROM (digest-pinned, e.g. ghcr.io/thisdotrob/assistant-base@sha256:...)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE: ghcr.io/thisdotrob/assistant-specialist-browser
+  BASE_IMAGE_REPO: ghcr.io/thisdotrob/assistant-base
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Derive version + base image ref
+        id: meta
+        run: |
+          version="$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          base="${{ inputs.base_image }}"
+          if [ -z "${base}" ]; then
+            base="${BASE_IMAGE_REPO}:${version}"
+          fi
+          echo "base=${base}" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: ./image
+          platforms: linux/amd64,linux/arm64
+          push: true
+          build-args: |
+            BASE_IMAGE=${{ steps.meta.outputs.base }}
+          tags: ${{ env.IMAGE }}:${{ steps.meta.outputs.version }}
+
+      - name: Report pushed digest
+        run: |
+          echo "### Specialist image published" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "\`${{ env.IMAGE }}:${{ steps.meta.outputs.version }}\` (FROM \`${{ steps.meta.outputs.base }}\`)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Digest: \`${{ steps.build.outputs.digest }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Set \`BROWSER_IMAGE_DIGEST\` in src/spec.rs to this digest." >> "$GITHUB_STEP_SUMMARY"

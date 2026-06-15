@@ -3,9 +3,10 @@
 # Chromium and the `agent-browser` CLI that drives it. Node, the Claude Code CLI,
 # the shim source, and the entrypoint are all inherited from the base, so this
 # image adds binaries and nothing else. Built outside the sandbox (apt + npm need
-# network); the base tag must match the `assistant-base` build.
+# network); the base ref must match the `assistant-base` build. CI overrides
+# BASE_IMAGE with the digest-pinned base (ghcr.io/.../assistant-base@sha256:...).
 
-ARG BASE_IMAGE=assistant-base:0.1.0
+ARG BASE_IMAGE=ghcr.io/thisdotrob/assistant-base:0.1.0
 FROM ${BASE_IMAGE}
 
 # Pinned so an upstream release can't silently change behaviour under a rebuild.

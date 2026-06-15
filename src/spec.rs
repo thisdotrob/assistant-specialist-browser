@@ -29,9 +29,15 @@ pub const BROWSER_GROUP_SLUG: &str = "browser-1";
 pub const BROWSER_DESCRIPTION: &str =
     "browses the web and reads live pages — for requests that need current web access";
 
-/// The repository name of the browser specialist's custom image (built from the
-/// co-located `image/Dockerfile`, `FROM assistant-base` + Chromium).
-pub const BROWSER_IMAGE_REPOSITORY: &str = "assistant-specialist-browser";
+/// The registry repository of the browser specialist's custom image (built from
+/// the co-located `image/Dockerfile`, `FROM assistant-base` + Chromium). Published
+/// by this repo's CI to GHCR; location + visibility mirror the source repo.
+pub const BROWSER_IMAGE_REPOSITORY: &str = "ghcr.io/thisdotrob/assistant-specialist-browser";
+
+/// The digest of the published specialist image, pinning the exact bytes a
+/// delegated job pulls. Bumped on every republish (see the release runbook).
+/// `None` falls back to the `repository:tag` reference.
+pub const BROWSER_IMAGE_DIGEST: Option<&str> = None;
 
 /// Per-turn step ceiling, bounding a stuck or looping browse.
 pub const BROWSER_MAX_TURNS: u32 = 40;
@@ -78,7 +84,7 @@ pub fn browser_specialist_spec(network: NetworkPolicy) -> SpecialistSpec {
         group_slug: BROWSER_GROUP_SLUG.to_string(),
         image_repository: BROWSER_IMAGE_REPOSITORY.to_string(),
         image_tag: BROWSER_PROFILE_VERSION.to_string(),
-        image_digest: None,
+        image_digest: BROWSER_IMAGE_DIGEST.map(str::to_string),
         max_specialists: DEFAULT_MAX_SPECIALISTS,
         max_concurrent_jobs: DEFAULT_MAX_CONCURRENT_JOBS,
         max_artifact_bytes: DEFAULT_MAX_ARTIFACT_BYTES,
@@ -103,7 +109,7 @@ mod tests {
         assert_eq!(spec.group_slug, BROWSER_GROUP_SLUG);
         assert_eq!(spec.image_repository, BROWSER_IMAGE_REPOSITORY);
         assert_eq!(spec.image_tag, BROWSER_PROFILE_VERSION);
-        assert_eq!(spec.image_digest, None);
+        assert_eq!(spec.image_digest.as_deref(), BROWSER_IMAGE_DIGEST);
         assert_eq!(spec.tools, vec!["Bash".to_string()]);
         assert_eq!(spec.allowed_tools, vec!["Bash(agent-browser:*)".to_string()]);
         assert_eq!(spec.max_turns, BROWSER_MAX_TURNS);
