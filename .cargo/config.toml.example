@@ -1,0 +1,6 @@
+# Local co-development override (copy to `.cargo/config.toml`, which is gitignored).
+#
+# Redirects the `git = "https://github.com/thisdotrob/assistant-platform"` deps to
+# the sibling checkout so local edits compile instantly. Without this file (e.g. a
+# fresh clone) the crates are fetched from GitHub and pinned by Cargo.lock.
+paths = ["../assistant-platform"]

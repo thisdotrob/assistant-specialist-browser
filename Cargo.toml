@@ -1,6 +1,7 @@
 # Standalone repo for the browser specialist. It is its own single-package
-# workspace and depends on the platform crates by path (this crate and the
-# products all sit side-by-side under the same parent directory).
+# workspace and depends on the platform crates from git. For local co-development
+# a gitignored `.cargo/config.toml` redirects these git sources to the sibling
+# `../assistant-platform` checkout (see `.cargo/config.toml.example`).
 [workspace]
 
 [package]
@@ -14,15 +15,15 @@ publish = false
 path = "src/lib.rs"
 
 [dependencies]
-assistant-core = { path = "../assistant-platform/crates/assistant-core" }
-assistant-capabilities = { path = "../assistant-platform/crates/assistant-capabilities" }
-assistant-agent-graph = { path = "../assistant-platform/crates/assistant-agent-graph" }
-assistant-specialist-spec = { path = "../assistant-platform/crates/assistant-specialist-spec" }
+assistant-core = { git = "https://github.com/thisdotrob/assistant-platform", branch = "main" }
+assistant-capabilities = { git = "https://github.com/thisdotrob/assistant-platform", branch = "main" }
+assistant-agent-graph = { git = "https://github.com/thisdotrob/assistant-platform", branch = "main" }
+assistant-specialist-spec = { git = "https://github.com/thisdotrob/assistant-platform", branch = "main" }
 serde = { version = "1.0.228", features = ["derive"] }
 
 [dev-dependencies]
-assistant-db = { path = "../assistant-platform/crates/assistant-db" }
-assistant-session = { path = "../assistant-platform/crates/assistant-session" }
+assistant-db = { git = "https://github.com/thisdotrob/assistant-platform", branch = "main" }
+assistant-session = { git = "https://github.com/thisdotrob/assistant-platform", branch = "main" }
 rusqlite = "0.32.1"
 serde_json = "1.0.149"
 tempfile = "3.27.0"

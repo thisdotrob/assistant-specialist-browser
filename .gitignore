@@ -1,2 +1,4 @@
 /target
 Cargo.lock
+# Local co-development override; commit `.cargo/config.toml.example` instead.
+/.cargo/config.toml
