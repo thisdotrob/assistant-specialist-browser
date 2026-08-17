@@ -94,6 +94,7 @@ pub fn browser_specialist_spec(network: NetworkPolicy) -> SpecialistSpec {
         allowed_tools: vec!["Bash(agent-browser:*)".to_string()],
         max_turns: BROWSER_MAX_TURNS,
         extra_env: Vec::new(),
+        onecli_agent: None,
     }
 }
 
