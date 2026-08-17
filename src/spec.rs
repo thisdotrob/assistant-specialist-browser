@@ -72,10 +72,18 @@ pub fn network_guardrail(network: &NetworkPolicy) -> String {
     }
 }
 
-/// Build the browser specialist's registration spec for the given egress policy.
+/// Build the browser specialist's registration spec for the given egress policy
+/// and OneCLI agent identity.
+///
+/// `onecli_agent` is the credential identity the specialist's containers
+/// authenticate as (e.g. `"cleoclaw-growth-prompts-and-notifications-browser"`).
+/// The caller derives it from the orchestrator agent name at startup so the
+/// browser specialist gets its own scoped credential set rather than sharing
+/// the orchestrator's identity.
+///
 /// The guardrail is folded into the system prompt at build time, so the host and
 /// the generic shim harness need no browser-specific knowledge.
-pub fn browser_specialist_spec(network: NetworkPolicy) -> SpecialistSpec {
+pub fn browser_specialist_spec(network: NetworkPolicy, onecli_agent: String) -> SpecialistSpec {
     let system_prompt = format!("{BROWSER_SYSTEM_PROMPT}{}", network_guardrail(&network));
     SpecialistSpec {
         route_name: BROWSER_ROUTE_NAME.to_string(),
@@ -94,7 +102,7 @@ pub fn browser_specialist_spec(network: NetworkPolicy) -> SpecialistSpec {
         allowed_tools: vec!["Bash(agent-browser:*)".to_string()],
         max_turns: BROWSER_MAX_TURNS,
         extra_env: Vec::new(),
-        onecli_agent: None,
+        onecli_agent,
     }
 }
 
@@ -104,7 +112,7 @@ mod tests {
 
     #[test]
     fn spec_carries_browser_identity_and_image() {
-        let spec = browser_specialist_spec(NetworkPolicy::open());
+        let spec = browser_specialist_spec(NetworkPolicy::open(), "test-orchestrator-browser".to_string());
         assert_eq!(spec.route_name, BROWSER_ROUTE_NAME);
         assert_eq!(spec.profile_id, BROWSER_PROFILE_ID);
         assert_eq!(spec.profile_version, BROWSER_PROFILE_VERSION);
@@ -124,7 +132,7 @@ mod tests {
     fn open_and_deny_all_add_no_guardrail() {
         assert!(network_guardrail(&NetworkPolicy::open()).is_empty());
         assert!(network_guardrail(&NetworkPolicy::deny_all()).is_empty());
-        let spec = browser_specialist_spec(NetworkPolicy::open());
+        let spec = browser_specialist_spec(NetworkPolicy::open(), "test-orchestrator-browser".to_string());
         assert!(!spec.system_prompt.contains("Only browse these domains"));
         assert!(spec.system_prompt.contains("web browsing specialist"));
     }
